@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bxj3ujulp3u4y"]
+[gd_scene load_steps=12 format=3 uid="uid://bxj3ujulp3u4y"]
 
 [ext_resource type="PackedScene" uid="uid://c5ioncvu5vuua" path="res://scenes/player_object.tscn" id="1_4uens"]
 [ext_resource type="Script" path="res://scenes/fighters/longsword.gd" id="2_ejdp7"]
@@ -25,11 +25,6 @@ _surfaces = [{
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2iveu"]
 size = Vector3(0.44, 0.43, 2.02)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_gmlet"]
-top_radius = 0.1
-bottom_radius = 0.09
-height = 0.8
 
 [sub_resource type="Animation" id="Animation_5apv7"]
 resource_name = "Idle"
@@ -108,18 +103,6 @@ mesh = SubResource("ArrayMesh_ymluc")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WeaponRig/Weapon" index="1"]
 transform = Transform3D(1, -5.96046e-08, 2.98023e-08, 0, 1, -1.19209e-07, 1.49012e-08, -2.98023e-08, 1, -2.98023e-07, 2.38419e-07, -1.11842)
 shape = SubResource("BoxShape3D_2iveu")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WeaponRig" index="1"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.424955, 0.21822, -0.390867)
-cast_shadow = 0
-mesh = SubResource("CylinderMesh_gmlet")
-
-[node name="OmniLight3D" type="SpotLight3D" parent="WeaponRig/MeshInstance3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 0.181223, -0.983442, 0, 0.983442, 0.181223, 0, 0.435578, 0)
-light_color = Color(1, 0.909804, 0.815686, 1)
-light_energy = 2.76
-shadow_enabled = true
-spot_range = 10.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
 libraries = {
