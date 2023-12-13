@@ -1,0 +1,14 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+uid="uid://ckfbnmp8bg1w6"
+path="res://.godot/imported/natural.1.map-349a4d81734930a2268287afb02c5ed3.tres"
+
+[deps]
+
+source_file="res://assets/raw-mapfiles/autosave/natural.1.map"
+dest_files=["res://.godot/imported/natural.1.map-349a4d81734930a2268287afb02c5ed3.tres"]
+
+[params]
+

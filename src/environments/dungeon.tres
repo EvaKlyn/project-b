@@ -1,0 +1,21 @@
+[gd_resource type="Environment" load_steps=3 format=3 uid="uid://5nvv167uamcu"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_kicyq"]
+
+[sub_resource type="Sky" id="Sky_vr5ii"]
+sky_material = SubResource("PhysicalSkyMaterial_kicyq")
+process_mode = 3
+
+[resource]
+background_mode = 1
+background_color = Color(0.227451, 0.227451, 0.309804, 1)
+sky = SubResource("Sky_vr5ii")
+ambient_light_source = 2
+ambient_light_color = Color(0.129412, 0.129412, 0.129412, 1)
+tonemap_mode = 2
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0, 0, 0, 1)
+fog_light_energy = 1.16
+fog_density = 0.1558
+fog_sky_affect = 0.0

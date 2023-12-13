@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdotsgckxjfis"]
+
+[ext_resource type="Script" path="res://src/spawn_point.gd" id="1_h6rpa"]
+
+[node name="SpawnPoint" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.66675, 9.19095, 31.1724)
+script = ExtResource("1_h6rpa")
+
+[node name="Marker3D" type="Marker3D" parent="."]

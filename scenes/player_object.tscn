@@ -1,0 +1,266 @@
+[gd_scene load_steps=14 format=3 uid="uid://c5ioncvu5vuua"]
+
+[ext_resource type="Script" path="res://src/player_object.gd" id="1_eq0gv"]
+[ext_resource type="Script" path="res://src/classes/player_body.gd" id="2_k4ktj"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_njot2"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="3_drph8"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="4_u6bxr"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="5_eccnj"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_22xmq"]
+radius = 0.4
+height = 1.5
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_5bygu"]
+radius = 0.4
+height = 1.5
+radial_segments = 6
+rings = 1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6optm"]
+radius = 0.4
+
+[sub_resource type="SphereMesh" id="SphereMesh_vgm4h"]
+radial_segments = 7
+rings = 4
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_27loj"]
+size = Vector3(0.875, 2.01, 0.875)
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_gl8ws"]
+margin = 0.01
+length = 1.5
+slide_on_slope = true
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_swp8o"]
+properties/0/path = NodePath("PhysicsPlayer:rotation")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("CameraRig/Camera3D:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("CameraRig/Camera3D:position")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath("WeaponRig/Weapon:position")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath("WeaponRig/Weapon:rotation")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath(".:net_velocity")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:net_position")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+
+[node name="PlayerObject" type="Node3D"]
+script = ExtResource("1_eq0gv")
+
+[node name="PhysicsPlayer" type="CharacterBody3D" parent="."]
+floor_snap_length = 0.11
+script = ExtResource("2_k4ktj")
+
+[node name="BodyCollider" type="CollisionShape3D" parent="PhysicsPlayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+shape = SubResource("CapsuleShape3D_22xmq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PhysicsPlayer/BodyCollider"]
+mesh = SubResource("CapsuleMesh_5bygu")
+skeleton = NodePath("../..")
+
+[node name="HeadCollider" type="CollisionShape3D" parent="PhysicsPlayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.84692, 0)
+shape = SubResource("SphereShape3D_6optm")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="PhysicsPlayer/HeadCollider"]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 0)
+mesh = SubResource("SphereMesh_vgm4h")
+skeleton = NodePath("../..")
+
+[node name="FallingCollider" type="CollisionShape3D" parent="PhysicsPlayer"]
+shape = SubResource("BoxShape3D_27loj")
+disabled = true
+
+[node name="DummyPivot" type="Node3D" parent="PhysicsPlayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.438, 0.214, 0.019)
+
+[node name="CameraMount" type="Node3D" parent="PhysicsPlayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="CameraRig" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0.874424, 0.237707, -0.118854)
+shape = SubResource("SeparationRayShape3D_gl8ws")
+spring_length = 2.3
+margin = 0.0
+
+[node name="Marker3D" type="Marker3D" parent="CameraRig/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.3)
+
+[node name="SpringArm3D2" type="SpringArm3D" parent="CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 0.819152, -0.573577, 0, 0.573577, 0.819152, 0.874424, 0.237707, -0.118854)
+shape = SubResource("SeparationRayShape3D_gl8ws")
+spring_length = 1.5
+
+[node name="Marker3D" type="Marker3D" parent="CameraRig/SpringArm3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
+
+[node name="CameraLookDummy" type="Node3D" parent="CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0.874424, 1.37878, 2.32818)
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0.874424, 1.20973, 1.96565)
+fov = 85.0
+
+[node name="State" type="Node" parent="."]
+script = ExtResource("2_njot2")
+
+[node name="ActionState" type="Node" parent="State"]
+script = ExtResource("3_drph8")
+initial_state = NodePath("Grounded")
+
+[node name="Grounded" type="Node" parent="State/ActionState"]
+script = ExtResource("3_drph8")
+initial_state = NodePath("Moving")
+
+[node name="Moving" type="Node" parent="State/ActionState/Grounded"]
+script = ExtResource("3_drph8")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="State/ActionState/Grounded/Moving"]
+script = ExtResource("4_u6bxr")
+
+[node name="ToWalking" type="Node" parent="State/ActionState/Grounded/Moving/Idle"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../Walking")
+event = &"moved"
+
+[node name="ToFalling" type="Node" parent="State/ActionState/Grounded/Moving/Idle"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../../../Airborne/Controlled")
+event = &"fall"
+
+[node name="NeutralAttack" type="Node" parent="State/ActionState/Grounded/Moving/Idle"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../../Attack/NeutralAttack")
+event = &"neutral_attack"
+
+[node name="SpecialAttack" type="Node" parent="State/ActionState/Grounded/Moving/Idle"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../../Attack/SpecialAttack")
+event = &"special_attack"
+
+[node name="Walking" type="Node" parent="State/ActionState/Grounded/Moving"]
+script = ExtResource("4_u6bxr")
+
+[node name="ToIdle" type="Node" parent="State/ActionState/Grounded/Moving/Walking"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../Idle")
+event = &"stopped"
+
+[node name="ToSprinting" type="Node" parent="State/ActionState/Grounded/Moving/Walking"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../Sprinting")
+event = &"sprint"
+
+[node name="ToFalling" type="Node" parent="State/ActionState/Grounded/Moving/Walking"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../../../Airborne/Controlled")
+event = &"fall"
+
+[node name="ToFreefall" type="Node" parent="State/ActionState/Grounded/Moving/Walking"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../../../Airborne/Freefall")
+event = &"freefall"
+
+[node name="NeutralAttack" type="Node" parent="State/ActionState/Grounded/Moving/Walking"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../../Attack/NeutralAttack")
+event = &"neutral_attack"
+
+[node name="SpecialAttack" type="Node" parent="State/ActionState/Grounded/Moving/Walking"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../../Attack/SpecialAttack")
+event = &"special_attack"
+
+[node name="Sprinting" type="Node" parent="State/ActionState/Grounded/Moving"]
+script = ExtResource("4_u6bxr")
+
+[node name="ToIdle" type="Node" parent="State/ActionState/Grounded/Moving/Sprinting"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../Idle")
+event = &"stopped"
+
+[node name="ToWalking" type="Node" parent="State/ActionState/Grounded/Moving/Sprinting"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../Walking")
+event = &"endsprint"
+
+[node name="ToFreefall" type="Node" parent="State/ActionState/Grounded/Moving/Sprinting"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../../../Airborne/Controlled")
+event = &"fall"
+
+[node name="DashAttack" type="Node" parent="State/ActionState/Grounded/Moving/Sprinting"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../../Attack/DashAttack")
+event = &"neutral_attack"
+
+[node name="Attack" type="Node" parent="State/ActionState/Grounded"]
+script = ExtResource("3_drph8")
+initial_state = NodePath("NeutralAttack")
+
+[node name="NeutralAttack" type="Node" parent="State/ActionState/Grounded/Attack"]
+script = ExtResource("4_u6bxr")
+
+[node name="DashAttack" type="Node" parent="State/ActionState/Grounded/Attack"]
+script = ExtResource("4_u6bxr")
+
+[node name="SpecialAttack" type="Node" parent="State/ActionState/Grounded/Attack"]
+script = ExtResource("4_u6bxr")
+
+[node name="ToMoving" type="Node" parent="State/ActionState/Grounded/Attack"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../Moving")
+event = &"attack_end"
+
+[node name="Airborne" type="Node" parent="State/ActionState"]
+script = ExtResource("3_drph8")
+initial_state = NodePath("Controlled")
+
+[node name="Controlled" type="Node" parent="State/ActionState/Airborne"]
+script = ExtResource("4_u6bxr")
+
+[node name="ToGrounded" type="Node" parent="State/ActionState/Airborne/Controlled"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../../Grounded/Moving/Idle")
+event = &"grounded"
+
+[node name="Freefall" type="Node" parent="State/ActionState/Airborne"]
+script = ExtResource("4_u6bxr")
+
+[node name="ToGrounded" type="Node" parent="State/ActionState/Airborne/Freefall"]
+script = ExtResource("5_eccnj")
+to = NodePath("../../../Grounded/Moving/Idle")
+event = &"grounded"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_swp8o")
+
+[connection signal="state_entered" from="State/ActionState/Grounded" to="." method="_on_grounded_state_entered"]
+[connection signal="state_physics_processing" from="State/ActionState/Grounded" to="." method="_on_grounded_state_physics_processing"]
+[connection signal="state_physics_processing" from="State/ActionState/Grounded/Moving" to="." method="_on_moving_state_physics_processing"]
+[connection signal="state_physics_processing" from="State/ActionState/Grounded/Moving/Walking" to="." method="_on_walking_state_physics_processing"]
+[connection signal="state_physics_processing" from="State/ActionState/Grounded/Moving/Sprinting" to="." method="_on_sprinting_state_physics_processing"]
+[connection signal="state_physics_processing" from="State/ActionState/Grounded/Attack" to="." method="_on_attack_state_physics_processing"]
+[connection signal="state_entered" from="State/ActionState/Grounded/Attack/NeutralAttack" to="." method="_on_neutral_attack"]
+[connection signal="state_entered" from="State/ActionState/Grounded/Attack/DashAttack" to="." method="_on_dash_attack"]
+[connection signal="state_entered" from="State/ActionState/Grounded/Attack/SpecialAttack" to="." method="_on_special_attack"]
+[connection signal="state_physics_processing" from="State/ActionState/Airborne" to="." method="_on_airborne_state_physics_processing"]
+[connection signal="state_physics_processing" from="State/ActionState/Airborne/Controlled" to="." method="_on_controlled_state_physics_processing"]
+[connection signal="state_entered" from="State/ActionState/Airborne/Freefall" to="." method="_on_freefall_state_entered"]
+[connection signal="state_physics_processing" from="State/ActionState/Airborne/Freefall" to="." method="_on_freefall_state_physics_processing"]

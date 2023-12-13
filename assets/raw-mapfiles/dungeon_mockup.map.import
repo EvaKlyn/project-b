@@ -1,0 +1,14 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+uid="uid://n1xo45dlmba7"
+path="res://.godot/imported/dungeon_mockup.map-7ebae23dcb5a66e32f603bb1cc38e1e0.tres"
+
+[deps]
+
+source_file="res://assets/raw-mapfiles/dungeon_mockup.map"
+dest_files=["res://.godot/imported/dungeon_mockup.map-7ebae23dcb5a66e32f603bb1cc38e1e0.tres"]
+
+[params]
+
