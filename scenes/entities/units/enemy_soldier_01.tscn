@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://woywnd0y1x68"]
+
+[ext_resource type="Texture2D" uid="uid://b3n8roxhiaqra" path="res://assets/sprite/soldier1.png" id="1_sk47d"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0pqdo"]
+
+[node name="EnemySoldier01" type="CharacterBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_0pqdo")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+pixel_size = 0.0625
+billboard = 2
+shaded = true
+alpha_cut = 1
+texture_filter = 0
+texture = ExtResource("1_sk47d")
